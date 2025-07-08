@@ -1,5 +1,5 @@
 export const TEACHING_PARAGRAPH =
-  "The quick brown fox jumps over the lazy dog.";
+  "Practice makes perfect, especially when building muscle memory through repetition. The quick brown fox jumps over the lazy dog. Typing speed and accuracy improve with daily practice and consistency. ";
 
 export function getRandomParagraph() {
   const paragraphs = [
