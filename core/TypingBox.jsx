@@ -1,6 +1,7 @@
 "use client";
 import { getRandomParagraph } from "@/utils/paragraph";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function TypingBox() {
   const [paragraph, setParagraph] = useState("");
@@ -112,7 +113,12 @@ export default function TypingBox() {
 
   return (
     <div className="w-full max-w-4xl px-6 text-2xl sm:text-3xl text-white leading-relaxed select-none">
-      <div className="flex flex-wrap mb-4">
+      <motion.div
+        className="flex flex-wrap mb-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
         {paragraph.split("").map((char, index) => {
           let className = "px-0.5";
 
@@ -126,14 +132,27 @@ export default function TypingBox() {
           }
 
           return (
-            <span key={index} className={className}>
+            // <span key={index} className={className}>
+            //   {char === " " ? "\u00A0" : char}
+            // </span>
+            <motion.span
+              key={index}
+              className={className}
+              animate={index === currentIndex ? { scale: [1, 1.3, 1] } : {}}
+              transition={{ duration: 0.3 }}
+            >
               {char === " " ? "\u00A0" : char}
-            </span>
+            </motion.span>
           );
         })}
-      </div>
+      </motion.div>
 
-      <div className="text-lg text-gray-300 space-y-1">
+      <motion.div
+        className="text-lg text-gray-300 space-y-1"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+      >
         <p>
           ⏱️ Time:{" "}
           <span className="text-blue-400 font-semibold">
@@ -167,7 +186,7 @@ export default function TypingBox() {
             ✅ Typing Complete!
           </p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

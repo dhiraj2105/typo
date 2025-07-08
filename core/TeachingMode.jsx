@@ -2,8 +2,9 @@
 
 import { TEACHING_PARAGRAPH } from "@/utils/paragraph";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-const TOTAL_ROUNDS = 10;
+const TOTAL_ROUNDS = 5;
 
 export default function TeachingMode() {
   const [round, setRound] = useState(1);
@@ -153,7 +154,13 @@ export default function TeachingMode() {
         Round {round} of {TOTAL_ROUNDS}
       </h1>
 
-      <div className="flex flex-wrap text-2xl sm:text-3xl leading-relaxed mb-6 select-none">
+      <motion.div
+        className="flex flex-wrap text-2xl sm:text-3xl leading-relaxed mb-6 select-none"
+        key={`round-${round}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         {TEACHING_PARAGRAPH.split("").map((char, i) => {
           let className = "px-0.5";
 
@@ -165,14 +172,24 @@ export default function TeachingMode() {
           }
 
           return (
-            <span key={i} className={className}>
+            <motion.span
+              key={i}
+              className={className}
+              animate={i === currentIndex ? { scale: [1, 1.3, 1] } : {}}
+              transition={{ duration: 0.25 }}
+            >
               {char === " " ? "\u00A0" : char}
-            </span>
+            </motion.span>
           );
         })}
-      </div>
+      </motion.div>
 
-      <div className="text-gray-300 space-y-1 text-sm sm:text-base">
+      <motion.div
+        className="text-gray-300 space-y-1 text-sm sm:text-base"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+      >
         <p>
           ⏱️ Time:{" "}
           <span className="text-blue-400">{formatTime(elapsedTime)}</span>
@@ -183,13 +200,21 @@ export default function TeachingMode() {
         <p>
           ⌫ Backspaces: <span className="text-yellow-300">{backspaces}</span>
         </p>
-      </div>
+      </motion.div>
 
-      {isRoundComplete && (
-        <p className="text-green-400 mt-3">
-          ✅ Round Complete! Next round starting...
-        </p>
-      )}
+      <AnimatePresence>
+        {isRoundComplete && (
+          <motion.p
+            className="text-green-400 mt-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.4 }}
+          >
+            ✅ Round Complete! Next round starting...
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
