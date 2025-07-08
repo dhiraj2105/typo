@@ -7,7 +7,7 @@ export default function Home() {
       <Head>
         <title>TypeForge | Typing Test</title>
       </Head>
-      <main className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
+      <main className="flex justify-center items-center min-h-screen bg-gray-700/90 text-white">
         <TypingBox />
       </main>
     </>
